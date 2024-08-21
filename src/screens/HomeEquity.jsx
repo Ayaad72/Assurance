@@ -161,10 +161,10 @@ const HomeEquityComponent = () => {
           />
         </motion.div>
       </motion.div>
-      {/* Video Container */}
-      <div className="w-full mb-6">
+      {/* Updated Video Container */}
+      <div className="w-full mb-6 flex justify-center pt-10">
         <iframe
-          className="w-full h-64 sm:h-80 md:h-96"
+          className="w-11/12 md:w-10/12 lg:w-9/12 aspect-video"
           src="https://www.youtube.com/embed/XAJMPvxs2Aw"
           title="YouTube video"
           frameBorder="0"
