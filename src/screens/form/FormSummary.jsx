@@ -20,7 +20,6 @@ const Summary = ({ formData }) => {
               </span>
               {/* <span className="text-gray-900 truncate">{value || "N/A"}</span> */}
               <small>{value || "N/A"}</small>
-
             </div>
           </div>
         ))}

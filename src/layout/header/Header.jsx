@@ -91,7 +91,7 @@ const Header = () => {
               isMenuOpen ? { opacity: 1, y: 0 } : { opacity: 0, y: "-100%" }
             }
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="mt-[2rem] text-center lg:hidden fixed top-0  transform -translate-x-1/2 w-11/12 max-w-full bg-white shadow-lg z-50 transition-all duration-300 ease-in-out rounded-lg"
+            className="m-0 text-center lg:hidden fixed top-0  transform -translate-x-1/2 w-11/12 max-w-full bg-white shadow-lg z-50 transition-all duration-300 ease-in-out rounded-lg"
           >
             <ul className="space-y-3 p-6 ">
               <li className="border-b border-gray-300 py-3 px-3">
