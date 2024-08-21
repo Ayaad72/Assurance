@@ -144,6 +144,17 @@ const HomeScreen = () => {
           transition={{ duration: 1.2 }}
         ></motion.div>
         <Video />
+        {/* Updated Video Container */}
+        <div className="w-full mb-6 flex justify-center pt-10">
+          <iframe
+            className="w-11/12 md:w-10/12 lg:w-9/12 aspect-video"
+            src="https://www.youtube.com/embed/XAJMPvxs2Aw"
+            title="YouTube video"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        </div>
       </div>
     </>
   );

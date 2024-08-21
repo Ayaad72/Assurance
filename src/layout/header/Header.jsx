@@ -93,7 +93,7 @@ const Header = () => {
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="mt-[4rem] lg:hidden fixed top-0 left-1/2 transform -translate-x-1/2 w-11/12 max-w-sm bg-white shadow-lg z-50 transition-all duration-300 ease-in-out rounded-lg"
           >
-            <ul className="space-y-3 p-6">
+            <ul className="space-y-3 p-6 mb-[12rem]">
               <li className="border-b border-gray-300 py-3 px-3">
                 <Link
                   to="/"

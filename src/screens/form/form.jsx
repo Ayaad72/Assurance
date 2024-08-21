@@ -60,7 +60,7 @@ const LoanApplicationForm = () => {
         { key: "employerName", message: "Employer name is required." },
         { key: "monthsAtCompany", message: "Months at company is required." },
         { key: "monthlyIncome", message: "Monthly income is required." },
-        { key: "payDate1", message: "Pay date 1 is required." },
+        { key: "payDate1", message: "Pay date  is required." },
       ],
       2: [
         { key: "bankName", message: "Bank name is required." },
@@ -179,7 +179,7 @@ const LoanApplicationForm = () => {
               ></div>
             </div>
             <div className="mt-2">
-              <h6 className="text-base font-bold text-bardum">Loan Info</h6>
+              <h6 className="text-base font-bold text-bardum">Income Info</h6>
             </div>
           </div>
 
@@ -203,7 +203,7 @@ const LoanApplicationForm = () => {
               ></div>
             </div>
             <div className="mt-2">
-              <h6 className="text-base font-bold text-bardum">Income Info</h6>
+              <h6 className="text-base font-bold text-bardum">Bank Info</h6>
             </div>
           </div>
 
@@ -602,7 +602,7 @@ const LoanApplicationForm = () => {
                 </div>
                 <div>
                   <label htmlFor="payDate1" className="block mb-2">
-                    Pay Date 1
+                    Pay Date
                   </label>
                   <input
                     type="date"

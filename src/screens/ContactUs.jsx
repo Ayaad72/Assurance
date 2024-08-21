@@ -1,7 +1,7 @@
 import React from "react";
 const ContactUs = () => {
   return (
-    <div className="font-sans min-h-screen bg-gradient-to-b from-white to-red-50 flex flex-col items-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="font-sans min-h-screen  flex flex-col items-center py-12 px-4 sm:px-6 lg:px-8">
       {/* Header Section */}
       <div className="max-w-3xl w-full text-center mb-12">
         <h1 className="text-4xl sm:text-5xl font-extrabold text-black mb-4">

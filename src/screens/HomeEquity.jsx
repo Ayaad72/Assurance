@@ -96,7 +96,7 @@ const HomeEquityComponent = () => {
   const [selectedCard, setSelectedCard] = useState(cardData[0]);
 
   return (
-    <div className="bg-slate-50 font-sans flex flex-col items-center p-4 min-h-screen">
+    <div className="max-w-[80rem] max-md:max-w-md mx-auto  font-sans flex flex-col items-center p-4 min-h-screen">
       <p className="text-xl sm:text-2xl md:text-3xl text-main font-bold mb-4 text-center text-bardum">
         Explore financial solutions tailored to your needs.
       </p>
