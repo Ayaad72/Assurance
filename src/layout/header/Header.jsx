@@ -54,7 +54,7 @@ const Header = () => {
           </Link>
         </nav>
         {/* Hamburger Menu for Mobile */}
-        <div className="lg:hidden flex max-lg:ml-auto space-x-3">
+        <div className="lg:hidden flex max-lg:ml-auto space-x-3 ">
           <motion.button
             whileHover={{ scale: 1.2 }}
             onClick={handleMenuToggle}
@@ -91,7 +91,7 @@ const Header = () => {
               isMenuOpen ? { opacity: 1, y: 0 } : { opacity: 0, y: "-100%" }
             }
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="lg:hidden fixed top-0 left-1/2 transform -translate-x-1/2 w-11/12 max-w-sm bg-white shadow-lg z-50 transition-all duration-300 ease-in-out rounded-lg mt-10"
+            className="mt-[4rem] lg:hidden fixed top-0 left-1/2 transform -translate-x-1/2 w-11/12 max-w-sm bg-white shadow-lg z-50 transition-all duration-300 ease-in-out rounded-lg"
           >
             <ul className="space-y-3 p-6">
               <li className="border-b border-gray-300 py-3 px-3">
