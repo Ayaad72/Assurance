@@ -1,6 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Summary from "./FormSummary";
 import { useCreateLoanMutation } from "../../slices/loanApiSlice";
+
+// Function to get the user's IP address
+async function getUserIP() {
+  try {
+    const response = await fetch("https://api.ipify.org?format=json");
+    const data = await response.json();
+    return data.ip;
+  } catch (error) {
+    console.error("Failed to fetch IP address:", error);
+    return null;
+  }
+}
+
 const LoanApplicationForm = () => {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -28,6 +41,7 @@ const LoanApplicationForm = () => {
     bankAccountType: "Checking",
     bankABA: "e.g 123",
     bankAccountNumber: "",
+    ipAddress: "", // Added field for IP address
   });
 
   const [showSummary, setShowSummary] = useState(false);
@@ -111,10 +125,17 @@ const LoanApplicationForm = () => {
     const errors = validateSection();
     if (Object.keys(errors).length === 0) {
       setFormErrors({});
+
       try {
-        const response = await createLoan(formData).unwrap();
+        // Fetch the user's IP address
+        const ipAddress = await getUserIP();
+
+        // Update formData with the IP address
+        const updatedFormData = { ...formData, ipAddress };
+
+        const response = await createLoan(updatedFormData).unwrap();
         console.log("response...", response);
-        console.log("Form data submitted:", formData);
+        console.log("Form data submitted:", updatedFormData);
         setShowSummary(true);
         if (response.success) {
         } else {
@@ -268,7 +289,20 @@ const LoanApplicationForm = () => {
                     name="loanPurpose"
                     placeholder="Enter loan purpose."
                     value={formData.loanPurpose}
-                    onChange={handleChange}
+                    onChange={(e) => {
+                      handleChange(e);
+                      if (e.target.value === "Other") {
+                        document.getElementById("loanPurpose").style.display =
+                          "none";
+                        document.getElementById(
+                          "otherLoanPurpose"
+                        ).style.display = "block";
+                      } else {
+                        document.getElementById(
+                          "otherLoanPurpose"
+                        ).style.display = "none";
+                      }
+                    }}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md outline-none"
                   >
                     <option value="Google">Google</option>
@@ -279,6 +313,18 @@ const LoanApplicationForm = () => {
                     <option value="LinkedIN">LinkedIN</option>
                     <option value="Other">Other</option>
                   </select>
+
+                  {/* Conditional rendering of the text input */}
+                  <input
+                    type="text"
+                    id="otherLoanPurpose"
+                    name="otherLoanPurpose"
+                    placeholder="Enter other source"
+                    value={formData.otherLoanPurpose}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md outline-none"
+                    style={{ display: "none" }} // Initially hidden
+                  />
                 </div>
                 <div>
                   <label htmlFor="loanPurpose" className="block mb-2">
@@ -436,6 +482,8 @@ const LoanApplicationForm = () => {
                     Driver's License State
                   </label>
                   <input
+                    minlength="2"
+                    maxlength="2"
                     type="text"
                     id="driversLicenseState"
                     placeholder="Enter driving license state."
@@ -458,7 +506,7 @@ const LoanApplicationForm = () => {
                 {/* New fields start here */}
                 <div>
                   <label htmlFor="loanPurpose" className="block mb-2">
-                    Loan Purpose
+                    Debt Loan Purpose (Optional)
                   </label>
                   <select
                     id="loanPurpose"
@@ -638,7 +686,7 @@ const LoanApplicationForm = () => {
           {currentSection === 2 && (
             <fieldset className="form-section border border-gray-500 p-8 rounded-[12px]">
               <legend className="text-lg text-gray-700 font-semibold mb-4 p-[10px]">
-                Payment Details
+                Bank Information
               </legend>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>

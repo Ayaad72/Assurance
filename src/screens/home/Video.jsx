@@ -17,7 +17,7 @@ function Video() {
       {/* Right Side - Titles and Text */}
       <div className="w-full lg:w-full flex flex-col justify-center items-start p-8 lg:p-0  text-gray-800">
         <motion.h1
-          className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-2 text-bardum mx-auto"
+          className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-2 text-bardum"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
@@ -25,7 +25,7 @@ function Video() {
           Assurance Partners LLC
         </motion.h1>
         <motion.p
-          className="text-lg md:text-xl lg:text-2xl mb-6 mx-auto text-gray-700 font-semibold"
+          className="text-lg md:text-xl lg:text-2xl mb-6  text-gray-700 font-semibold"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 1 }}

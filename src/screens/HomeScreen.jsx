@@ -147,7 +147,7 @@ const HomeScreen = () => {
         {/* Updated Video Container */}
         <div className="w-full mb-6 flex justify-center pt-10">
           <iframe
-            className="w-11/12 md:w-10/12 lg:w-9/12 aspect-video"
+            className="w-full h-[300px] md:h-[400px] lg:h-[500px] aspect-video"
             src="https://www.youtube.com/embed/XAJMPvxs2Aw"
             title="YouTube video"
             frameBorder="0"

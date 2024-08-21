@@ -96,7 +96,7 @@ const HomeEquityComponent = () => {
   const [selectedCard, setSelectedCard] = useState(cardData[0]);
 
   return (
-    <div className="max-w-[80rem] max-md:max-w-md mx-auto  font-sans flex flex-col items-center p-4 min-h-screen">
+    <div className="max-w-[80rem] max-md:max-w-md mx-auto  font-sans flex flex-col items-center p-4">
       <p className="text-xl sm:text-2xl md:text-3xl text-main font-bold mb-4 text-center text-bardum">
         Explore financial solutions tailored to your needs.
       </p>
@@ -164,7 +164,7 @@ const HomeEquityComponent = () => {
       {/* Updated Video Container */}
       <div className="w-full mb-6 flex justify-center pt-10">
         <iframe
-          className="w-11/12 md:w-10/12 lg:w-9/12 aspect-video"
+          className="w-full h-[300px] md:h-[400px] lg:h-[500px] aspect-video"
           src="https://www.youtube.com/embed/XAJMPvxs2Aw"
           title="YouTube video"
           frameBorder="0"
