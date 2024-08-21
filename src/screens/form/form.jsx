@@ -16,6 +16,8 @@ async function getUserIP() {
 
 const LoanApplicationForm = () => {
   const [formData, setFormData] = useState({
+    // hearAbout: "",
+    // financialSolution: "",
     firstName: "",
     lastName: "",
     email: "",
@@ -54,6 +56,8 @@ const LoanApplicationForm = () => {
     const errors = {};
     const sectionFields = {
       0: [
+        // { key: "hearAbout", message: "Hear About Us is required." },
+        // { key: "financialSolution", message: "Financial Solution is required." },
         { key: "firstName", message: "First name is required." },
         { key: "lastName", message: "Last name is required." },
         { key: "email", message: "Email is required." },
@@ -120,6 +124,35 @@ const LoanApplicationForm = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   const errors = validateSection();
+  //   if (Object.keys(errors).length === 0) {
+  //     setFormErrors({});
+
+  //     try {
+  //       // Fetch the user's IP address
+  //       const ipAddress = await getUserIP();
+
+  //       // Update formData with the IP address
+  //       const updatedFormData = { ...formData, ipAddress };
+
+  //       const response = await createLoan(updatedFormData).unwrap();
+  //       console.log("response...", response);
+  //       console.log("Form data submitted:", updatedFormData);
+  //       setShowSummary(true);
+  //       if (response.success) {
+  //       } else {
+  //         setFormErrors({ general: `${response.message}` });
+  //       }
+  //     } catch (err) {
+  //       setFormErrors({ general: `${err.message}` });
+  //     }
+  //   } else {
+  //     setFormErrors(errors);
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const errors = validateSection();
@@ -132,6 +165,7 @@ const LoanApplicationForm = () => {
 
         // Update formData with the IP address
         const updatedFormData = { ...formData, ipAddress };
+        setFormData(updatedFormData); // Ensure formData is updated
 
         const response = await createLoan(updatedFormData).unwrap();
         console.log("response...", response);
@@ -327,14 +361,13 @@ const LoanApplicationForm = () => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="loanPurpose" className="block mb-2">
+                  <label htmlFor="financialSolution" className="block mb-2">
                     Financial Solutions
                   </label>
                   <select
-                    id="loanPurpose"
-                    name="loanPurpose"
-                    placeholder="Enter loan purpose."
-                    value={formData.loanPurpose}
+                    id="financialSolution"
+                    name="financialSolution"
+                    value={formData.financialSolution}
                     onChange={handleChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md outline-none"
                   >
