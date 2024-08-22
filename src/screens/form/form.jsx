@@ -16,8 +16,9 @@ async function getUserIP() {
 
 const LoanApplicationForm = () => {
   const [formData, setFormData] = useState({
-    // hearAbout: "",
-    // financialSolution: "",
+    hearAbout: "",
+    otherHearAbout: "", // New field for custom input
+    financialSolution: "",
     firstName: "",
     lastName: "",
     email: "",
@@ -51,13 +52,12 @@ const LoanApplicationForm = () => {
   const [currentSection, setCurrentSection] = useState(0);
   const [formErrors, setFormErrors] = useState({});
   const [progress, setProgress] = useState(0);
+  const [isOtherSelected, setIsOtherSelected] = useState(false); // New state to track "Other" option
 
   const validateSection = () => {
     const errors = {};
     const sectionFields = {
       0: [
-        // { key: "hearAbout", message: "Hear About Us is required." },
-        // { key: "financialSolution", message: "Financial Solution is required." },
         { key: "firstName", message: "First name is required." },
         { key: "lastName", message: "Last name is required." },
         { key: "email", message: "Email is required." },
@@ -74,7 +74,6 @@ const LoanApplicationForm = () => {
       ],
       1: [
         { key: "loanPurpose", message: "Loan purpose is required." },
-        { key: "requestedAmount", message: "Requested amount is required." },
         { key: "employerName", message: "Employer name is required." },
         { key: "monthsAtCompany", message: "Months at company is required." },
         { key: "monthlyIncome", message: "Monthly income is required." },
@@ -121,37 +120,19 @@ const LoanApplicationForm = () => {
   };
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    if (name === "hearAbout") {
+      setIsOtherSelected(value === "Other");
+      setFormData({
+        ...formData,
+        [name]: value,
+        otherHearAbout: "", // Clear otherHearAbout if another option is selected
+      });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   const errors = validateSection();
-  //   if (Object.keys(errors).length === 0) {
-  //     setFormErrors({});
-
-  //     try {
-  //       // Fetch the user's IP address
-  //       const ipAddress = await getUserIP();
-
-  //       // Update formData with the IP address
-  //       const updatedFormData = { ...formData, ipAddress };
-
-  //       const response = await createLoan(updatedFormData).unwrap();
-  //       console.log("response...", response);
-  //       console.log("Form data submitted:", updatedFormData);
-  //       setShowSummary(true);
-  //       if (response.success) {
-  //       } else {
-  //         setFormErrors({ general: `${response.message}` });
-  //       }
-  //     } catch (err) {
-  //       setFormErrors({ general: `${err.message}` });
-  //     }
-  //   } else {
-  //     setFormErrors(errors);
-  //   }
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -163,8 +144,15 @@ const LoanApplicationForm = () => {
         // Fetch the user's IP address
         const ipAddress = await getUserIP();
 
-        // Update formData with the IP address
-        const updatedFormData = { ...formData, ipAddress };
+        // Update formData with the IP address and the custom input if "Other" was selected
+        const updatedFormData = {
+          ...formData,
+          ipAddress,
+          hearAbout: isOtherSelected
+            ? formData.otherHearAbout
+            : formData.hearAbout,
+        };
+
         setFormData(updatedFormData); // Ensure formData is updated
 
         const response = await createLoan(updatedFormData).unwrap();
@@ -176,9 +164,11 @@ const LoanApplicationForm = () => {
           setFormErrors({ general: `${response.message}` });
         }
       } catch (err) {
+        console.log("err...........", err);
         setFormErrors({ general: `${err.message}` });
       }
     } else {
+      console.log("errors...........", errors);
       setFormErrors(errors);
     }
   };
@@ -189,8 +179,8 @@ const LoanApplicationForm = () => {
         <h1 className="text-3xl font-bold text-gray-700"> Form</h1>
       </header>
 
-      <div className=" lg:w-[60%] sm:w-[100%] mx-auto p-6 bg-white shadow-md rounded-md">
-        {/* stepper progressbar start*/}
+      <div className="lg:w-[60%] sm:w-[100%] mx-auto p-6 bg-white shadow-md rounded-md">
+        {/* stepper progressbar start */}
         <div className="flex items-start max-w-screen-lg mx-auto mb-6">
           <div className="w-full">
             <div className="flex items-center w-full">
@@ -208,9 +198,7 @@ const LoanApplicationForm = () => {
               ></div>
             </div>
             <div className="mt-2">
-              <h6 className="text-base font-bold  text-bardum">
-                Personal Info
-              </h6>
+              <h6 className="text-base font-bold text-bardum">Personal Info</h6>
             </div>
           </div>
 
@@ -300,7 +288,9 @@ const LoanApplicationForm = () => {
             </div>
           </div>
         </div>
-        {/* stepper progress bar */}
+
+        {/* stepper progress bar  ends*/}
+
         <form className="w-full" id="loanForm " onSubmit={handleSubmit}>
           {Object.keys(formErrors).length > 0 && (
             <div className="mb-4 p-4 bg-red-100 text-bardum rounded-md">
@@ -309,56 +299,42 @@ const LoanApplicationForm = () => {
           )}
           {currentSection === 0 && (
             <fieldset className="form-section border border-gray-500 p-8 rounded-[12px]">
-              <legend className="text-lg text-gray-700 font-semibold mb-4 p-[10px] ">
+              <legend className="text-lg text-gray-700 font-semibold mb-4 p-[10px]">
                 Personal Information
               </legend>
               {/* Personal Info Fields */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="loanPurpose" className="block mb-2">
+                  <label htmlFor="hearAbout" className="block mb-2">
                     How did you hear about us?
                   </label>
-                  <select
-                    id="loanPurpose"
-                    name="loanPurpose"
-                    placeholder="Enter loan purpose."
-                    value={formData.loanPurpose}
-                    onChange={(e) => {
-                      handleChange(e);
-                      if (e.target.value === "Other") {
-                        document.getElementById("loanPurpose").style.display =
-                          "none";
-                        document.getElementById(
-                          "otherLoanPurpose"
-                        ).style.display = "block";
-                      } else {
-                        document.getElementById(
-                          "otherLoanPurpose"
-                        ).style.display = "none";
-                      }
-                    }}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md outline-none"
-                  >
-                    <option value="Google">Google</option>
-                    <option value="Instagram">Instagram</option>
-                    <option value="Facebook">Facebook</option>
-                    <option value="Twitter">Twitter</option>
-                    <option value="Tiktok">Tiktok</option>
-                    <option value="LinkedIN">LinkedIN</option>
-                    <option value="Other">Other</option>
-                  </select>
-
-                  {/* Conditional rendering of the text input */}
-                  <input
-                    type="text"
-                    id="otherLoanPurpose"
-                    name="otherLoanPurpose"
-                    placeholder="Enter other source"
-                    value={formData.otherLoanPurpose}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md outline-none"
-                    style={{ display: "none" }} // Initially hidden
-                  />
+                  {isOtherSelected ? (
+                    <input
+                      type="text"
+                      id="otherHearAbout"
+                      name="otherHearAbout"
+                      value={formData.otherHearAbout}
+                      onChange={handleChange}
+                      placeholder="Please specify"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md outline-none"
+                    />
+                  ) : (
+                    <select
+                      id="hearAbout"
+                      name="hearAbout"
+                      value={formData.hearAbout}
+                      onChange={handleChange}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md outline-none"
+                    >
+                      <option value="Google">Google</option>
+                      <option value="Instagram">Instagram</option>
+                      <option value="Facebook">Facebook</option>
+                      <option value="Twitter">Twitter</option>
+                      <option value="Tiktok">Tiktok</option>
+                      <option value="LinkedIN">LinkedIN</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  )}
                 </div>
                 <div>
                   <label htmlFor="financialSolution" className="block mb-2">
@@ -371,24 +347,26 @@ const LoanApplicationForm = () => {
                     onChange={handleChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md outline-none"
                   >
-                    <option value="Creditcard">Home Equity</option>
-                    <option value="Homeimprovement">Home Refinance</option>
-                    <option value="Majorpurchase">Personal Loan</option>
-                    <option value="Car">Inssurance</option>
-                    <option value="Greenloan">Bussiness Loan</option>
-                    <option value="Business">Student Loan</option>
-                    <option value="Vacation">Tax Relief</option>
-                    <option value="Wedding">Other</option>
+                    <option value="HomeEquity">Home Equity</option>
+                    <option value="HomeRefinance">Home Refinance</option>
+                    <option value="PersonalLoan">Personal Loan</option>
+                    <option value="Insurance">Insurance</option>{" "}
+                    {/* Corrected value */}
+                    <option value="BusinessLoan">Business Loan</option>{" "}
+                    {/* Corrected value */}
+                    <option value="StudentLoan">Student Loan</option>
+                    <option value="TaxRelief">Tax Relief</option>
+                    <option value="Other">Other</option>
                   </select>
                 </div>
+
                 <div>
                   <label htmlFor="firstName" className="block mb-2">
                     First Name
                   </label>
                   <input
                     type="text"
-                    min="5"
-                    max="50"
+                    maxlength="50"
                     id="firstName"
                     name="firstName"
                     placeholder="Enter first name."
@@ -403,6 +381,7 @@ const LoanApplicationForm = () => {
                     Last Name
                   </label>
                   <input
+                    maxlength="50"
                     type="text"
                     placeholder="Enter last name."
                     id="lastName"
@@ -443,6 +422,7 @@ const LoanApplicationForm = () => {
                     SSN
                   </label>
                   <input
+                    maxlength="50"
                     type="text"
                     id="ssn"
                     placeholder="Enter SSN."
@@ -457,6 +437,7 @@ const LoanApplicationForm = () => {
                     Phone
                   </label>
                   <input
+                    maxlength="12"
                     type="text"
                     placeholder="Enter home phone number."
                     id="phoneHome"
@@ -471,6 +452,7 @@ const LoanApplicationForm = () => {
                     Address
                   </label>
                   <input
+                    maxLength="50"
                     type="text"
                     id="address1"
                     placeholder="Enter address."
@@ -487,12 +469,16 @@ const LoanApplicationForm = () => {
                   <input
                     placeholder="Enter zip code."
                     type="number"
-                    min="2"
-                    max="5"
+                    maxlength="10"
                     id="zipCode"
                     name="zipCode"
                     value={formData.zipCode}
                     onChange={handleChange}
+                    onInput={(e) => {
+                      if (e.target.value.length > 50) {
+                        e.target.value = e.target.value.slice(0, 50);
+                      }
+                    }}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md outline-none"
                   />
                 </div>
@@ -507,6 +493,11 @@ const LoanApplicationForm = () => {
                     placeholder="Enter driving license."
                     value={formData.driversLicense}
                     onChange={handleChange}
+                    onInput={(e) => {
+                      if (e.target.value.length > 50) {
+                        e.target.value = e.target.value.slice(0, 50);
+                      }
+                    }}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md outline-none"
                   />
                 </div>
@@ -572,7 +563,7 @@ const LoanApplicationForm = () => {
 
                 <div>
                   <label htmlFor="requestedAmount" className="block mb-2">
-                    Requested Amount
+                    Requested Amount (Optional)
                   </label>
                   <input
                     type="number"
@@ -581,6 +572,11 @@ const LoanApplicationForm = () => {
                     name="requestedAmount"
                     value={formData.requestedAmount}
                     onChange={handleChange}
+                    onInput={(e) => {
+                      if (e.target.value.length > 50) {
+                        e.target.value = e.target.value.slice(0, 50);
+                      }
+                    }}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md outline-none"
                   />
                 </div>
@@ -727,6 +723,7 @@ const LoanApplicationForm = () => {
                     Bank Name
                   </label>
                   <input
+                    maxLength="50"
                     placeholder="Enter bank name."
                     type="text"
                     id="bankName"
@@ -774,6 +771,7 @@ const LoanApplicationForm = () => {
                     Bank ABA
                   </label>
                   <input
+                    maxLength="50"
                     type="text"
                     placeholder="Enter bank ABA."
                     id="bankABA"
@@ -794,9 +792,11 @@ const LoanApplicationForm = () => {
                     name="bankAccountNumber"
                     value={formData.bankAccountNumber}
                     onChange={handleChange}
-                    minlength="4"
-                    maxlength="30"
-                    required
+                    onInput={(e) => {
+                      if (e.target.value.length > 50) {
+                        e.target.value = e.target.value.slice(0, 50);
+                      }
+                    }}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md outline-none"
                   />
                 </div>
