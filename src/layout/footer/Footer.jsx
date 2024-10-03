@@ -46,12 +46,12 @@ const Footer = () => {
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
           gravida, mi eu pulvinar cursus, sem elit interdum mauris dipiscing
           elit. Aenean gravida, mi eu pulvinar cursus.
-          <a
+          {/* <a
             href="javascript:void(0)"
             className="text-sm font-semibold text-bardum"
           >
             Read more...
-          </a>
+          </a> */}
         </p>
 
         <ul className="flex items-center justify-center flex-wrap gap-y-3 gap-x-6 mt-8">
